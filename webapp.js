@@ -1,6 +1,10 @@
 const express = require('express');
 const app = express();
 
+//assets is 'replaced' with public; assets will point to public
+app.use('/assets', express.static('public'));
+// app.use('/css', express.static('css'));
+
 // app.get('/', (req, res) => res.send('Hello Worldsssss!'));
 app.set('view engine', 'ejs');
 
