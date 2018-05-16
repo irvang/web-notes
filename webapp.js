@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+const morgan = require('morgan');
 
 const notes = [
 	'http is a protocol',
@@ -18,6 +19,7 @@ app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({extended: true}));
 
+app.use(morgan('tiny'));
 // app.use('/', express.static('views'));
 
 app.get('/', (req, res) => {
