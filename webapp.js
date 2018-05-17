@@ -43,8 +43,9 @@ app.put('/notes/:id', function (req, res) {
 		res.status(404).send(`\n There is no note at position ${id} \n\n`);
 	} else {
 		notes.splice(id, 1, note);// also like this notes[id] = note;
-		res.status(200).send(`\nNew note saved at position ${id} \n\n`);
-	}
+		res.redirect('/');
+		// res.status(200).send(`\nNew note saved at position ${id} \n\n`);
+	} 
 
 });
 
