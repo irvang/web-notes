@@ -11,16 +11,31 @@
 		//take value of the div
 		//create a fetch with a method put, that puts to '/notes/:id'
 		//maybe redirect on server?
-	
+
 		function putFetch() {
 			let allNotes = document.querySelectorAll('.card-body');
-			// console.log(allNotes);
+
+			let newArray = [];
 			allNotes.forEach((elm) => {
-				console.log(elm.innerHTML);
+				newArray.push(elm.textContent);
+			});
+			console.log(newArray);
+
+			fetch('/all-notes', {
+				method: 'PUT', // or 'PUT'
+				body: JSON.stringify( { notes: newArray }), // data can be `string` or {object}!
+				// redirect: 'follow',
+				headers: new Headers({
+					'Content-Type': 'application/json'
+				})
+			}).then(res => {
+				return res;
 			})
+				.catch(error => console.error('Error:', error))
+				.then(response => console.log('Success:', response));
 		}
 	</script>
-
+ 
 </head>
 
 <body>
@@ -35,19 +50,17 @@
 		<input type="submit" value='Save'>
 	</form>
 	<!-- continue on Make the web notes app create a new note on an http post request-->
-<button onclick='putFetch();'>Update a note</button>
+	<button onclick='putFetch();'>Update notes</button>
 
 	<% for(let i = 0; i < notes.length; i++) { %>
 		<div class="card">
-			<div class="card-header">
-				Note
-				<%= i + 1 %>
-			</div>
-			<div class="card-body" onclick="this.contentEditable = true;">
-				<%= notes[i] %>
-			</div>
+			<div class="card-header">Note <%= i + 1 %></div>
+			<div class="card-body" onclick="this.contentEditable = true;"><%= notes[i] %></div>
 		</div>
-		<% } %>
+	<% } %>
+
+	<!-- JS -->
+	<script src="assets/js/main.js"></script>
 </body>
 
 
