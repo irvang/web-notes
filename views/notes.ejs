@@ -50,16 +50,21 @@
 		<input type="submit" value='Save'>
 	</form>
 	<!-- continue on Make the web notes app create a new note on an http post request-->
-	<button onclick='putFetch();'>Update notes</button>
+	<!-- <button onclick='putFetch();'>Update notes</button> -->
 
-	<% for(let i = 0; i < notes.length; i++) { %>
+	<% for(let i = 0; i < notesInEjs.length; i++) { %>
 		<div class="card">
-			<div class="card-header">Note <%= i + 1 %></div>
-			<div class="card-body" onclick="this.contentEditable = true;"><%= notes[i] %></div>
+			<div class="card-header">Note <%= i + 1 %>
+				<button onclick="deleteNote(<%= i %>);" class="btn btn-danger">Delete</button>
+			</div> 
+			
+			<div class="card-body" onclick="this.contentEditable = true;"><%= notesInEjs[i] %></div>
 		</div>
 	<% } %>
-
+ 
 	<!-- JS -->
+	<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 	<script src="assets/js/main.js"></script>
 </body>
 
