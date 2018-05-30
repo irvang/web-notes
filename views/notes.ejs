@@ -49,16 +49,24 @@
 		<textarea name="note"></textarea>
 		<input type="submit" value='Save'>
 	</form>
+
+		<textarea id="note-replace-text" type="text" placeholder="New note here"></textarea>
+		<input id="note-replace-index" type="number" width="3em" value='0'>
+		<button onclick="replaceNote();">Replace note</button>
+
+
 	<!-- continue on Make the web notes app create a new note on an http post request-->
 	<!-- <button onclick='putFetch();'>Update notes</button> -->
 
 	<% for(let i = 0; i < notesInEjs.length; i++) { %>
 		<div class="card">
 			<div class="card-header">Note <%= i + 1 %>
-				<button onclick="deleteNote(<%= i %>);" class="btn btn-danger">Delete</button>
+				<!-- <button onclick="this.editNote = editNote.bind(this); this.editNote()" class="btn btn-secondary">Edit</button> -->
+				<button onclick="editNote(this, <%= i %>)" class="btn btn-secondary editButton">Edit</button>
+				<button onclick="deleteNote(<%= i %>);"  class="btn btn-danger">Delete</button>
 			</div> 
 			
-			<div class="card-body" onclick="this.contentEditable = true;"><%= notesInEjs[i] %></div>
+			<div class="card-body" data-id=<%= i %>><%= notesInEjs[i] %></div>
 		</div>
 	<% } %>
  
@@ -69,4 +77,4 @@
 </body>
 
 
-</html>
+</html> 

@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
+const port = process.env.PORT || 3000;
 
 let notes = [
 	'http is a protocol',
@@ -43,15 +44,13 @@ app.put('/notes/:id', function (req, res) {
 	} else {
 		notes.splice(id, 1, note);// also like this notes[id] = note;
 		res.send('note deleted');
-		// res.redirect('/');
-		// res.status(200).send(`\nNew note saved at position ${id} \n\n`);
 	} 
 }); 
 
 app.put('/all-notes', function (req, res) {
 
 	if(req.body.notes) {
-		notes = ( req.body.notes);
+		notes = req.body.notes;
 	} else {
 		res.status(404).send('No notes to update');
 	}
@@ -69,6 +68,6 @@ app.delete('/notes/:id', function (req, res) {
 	}
 });
 
-app.listen(3000, () => {
-	console.log('Example app listening on port 3000!')
+app.listen(port, () => {
+	console.log(`Example app listening on port ${port}!`)
 });
