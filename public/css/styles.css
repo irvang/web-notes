@@ -28,3 +28,7 @@ body {
   form .btn {
 	margin-top: 20px;
   }
+
+  .editButton {
+	  width: 4.5rem;
+  }

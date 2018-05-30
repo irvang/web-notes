@@ -24,22 +24,22 @@ function replaceNote() {
 	$.ajax(ajaxRequest);
 }
 
-function editNote(thisButton, i) {
+// function editNote(thisButton, i) {
 
-	let toggleB = true;
+// 	let toggleB = true;
 
-	return function () {
-		console.log(thisButton);
+// 	return function () {
+// 		console.log(thisButton);
 
-		let noteDiv = $(thisButton).parent().parent().children()[1];
-		noteDiv.contentEditable = true;
-		thisButton.innerHTML = 'Save';
-		thisButton.classList.remove('btn-secondary');
-		thisButton.classList.add('btn-success');
-		thisButton.removeEventListener('click', editNote)
-		console.log(thisButton);
-	}
-}
+// 		let noteDiv = $(thisButton).parent().parent().children()[1];
+// 		noteDiv.contentEditable = true;
+// 		thisButton.innerHTML = 'Save';
+// 		thisButton.classList.remove('btn-secondary');
+// 		thisButton.classList.add('btn-success');
+// 		thisButton.removeEventListener('click', editNote)
+// 		console.log(thisButton);
+// 	}
+// }
 
 let buttons = $(".editButton");
 buttons.on('click', editNote2);
@@ -49,7 +49,7 @@ function editNote2(evt) {
 	// console.log(($(this)));
 	$(this).toggleClass('btn-secondary');
 	$(this).toggleClass('btn-success');
-	$(this).html('Update');
+	$(this).html('Save');
 
 	let noteDiv = $(this).parent().parent().children()[1];
 	noteDiv.contentEditable = true; //attr('contentEditable', true);
@@ -63,7 +63,7 @@ function saveNote (evt) {
 
 	$(this).toggleClass('btn-secondary');
 	$(this).toggleClass('btn-success');
-	$(this).html('Save');
+	$(this).html('Edit');
 
 	let noteDiv = $(this).parent().parent().children()[1];
 	noteDiv.contentEditable = false; //attr('contentEditable', 
