@@ -73,7 +73,6 @@ function saveNote (evt) {
 	
 	let noteNumber = noteDiv.dataset.id;
 	let noteText = noteDiv.textContent;
-	console.log(noteText)
 
 	let ajaxRequest = {
 		url: '/notes/' + noteNumber,
