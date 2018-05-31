@@ -24,26 +24,9 @@ function replaceNote() {
 	$.ajax(ajaxRequest);
 }
 
-// function editNote(thisButton, i) {
-
-// 	let toggleB = true;
-
-// 	return function () {
-// 		console.log(thisButton);
-
-// 		let noteDiv = $(thisButton).parent().parent().children()[1];
-// 		noteDiv.contentEditable = true;
-// 		thisButton.innerHTML = 'Save';
-// 		thisButton.classList.remove('btn-secondary');
-// 		thisButton.classList.add('btn-success');
-// 		thisButton.removeEventListener('click', editNote)
-// 		console.log(thisButton);
-// 	}
-// }
-
+//====EDIT BUTTON
 let buttons = $(".editButton");
 buttons.on('click', editNote2);
-
 
 function editNote2(evt) {
 	// console.log(($(this)));

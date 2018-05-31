@@ -7,33 +7,7 @@
 	<link rel="stylesheet" href="assets/css/styles.css">
 
 	<script>
-		//when that happens
-		//take value of the div
-		//create a fetch with a method put, that puts to '/notes/:id'
-		//maybe redirect on server?
 
-		function putFetch() {
-			let allNotes = document.querySelectorAll('.card-body');
-
-			let newArray = [];
-			allNotes.forEach((elm) => {
-				newArray.push(elm.textContent);
-			});
-			console.log(newArray);
-
-			fetch('/all-notes', {
-				method: 'PUT', // or 'PUT'
-				body: JSON.stringify( { notes: newArray }), // data can be `string` or {object}!
-				// redirect: 'follow',
-				headers: new Headers({
-					'Content-Type': 'application/json'
-				})
-			}).then(res => {
-				return res;
-			})
-				.catch(error => console.error('Error:', error))
-				.then(response => console.log('Success:', response));
-		}
 	</script>
  
 </head>
@@ -49,22 +23,14 @@
 		<textarea name="note"></textarea>
 		<input type="submit" value='Save'>
 	</form>
-	<!--
-
-		<textarea id="note-replace-text" type="text" placeholder="New note here"></textarea>
-		<input id="note-replace-index" type="number" width="3em" value='0'>
-		<button onclick="replaceNote();">Replace note</button>
-
--->
 
 	<!-- continue on Make the web notes app create a new note on an http post request-->
-	<!-- <button onclick='putFetch();'>Update notes</button> -->
 
 	<% for(let i = 0; i < notesInEjs.length; i++) { %>
 		<div class="card">
 			<div class="card-header">Note <%= i + 1 %>
 				<!-- <button onclick="this.editNote = editNote.bind(this); this.editNote()" class="btn btn-secondary">Edit</button> -->
-				<button onclick="editNote(this, <%= i %>)" class="btn btn-secondary editButton">Edit</button>
+				<button class="btn btn-secondary editButton">Edit</button>
 				<button onclick="deleteNote(<%= i %>);"  class="btn btn-danger">Delete</button>
 			</div> 
 			
