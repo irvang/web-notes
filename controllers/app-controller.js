@@ -4,14 +4,8 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const Note = require('../db/note-model');
-console.log(Note);
 
-let notes = [
-	'http is a protocol',
-	'http requests have a url, method, header, and body',
-	'this is cool',
-	'that is hot'
-];
+
 
 module.exports = function appController(app) {
 
@@ -27,8 +21,12 @@ module.exports = function appController(app) {
 	// app.use('/', express.static('views'));
 
 	app.get('/', (req, res) => {
-		// console.log('called again');
-		res.status(200).render('notes', { notesInEjs: notes });
+		Note.find(function (err, noteCollection) {
+			if (err) return console.error(err);
+			console.log(noteCollection);
+			res.status(200).render('notes', { notesInEjs: noteCollection });
+		});
+		// res.status(200).render('notes', { notesInEjs: notes });
 	});
 
 	app.post('/notes', (req, res) => {
@@ -51,15 +49,6 @@ module.exports = function appController(app) {
 		}
 	});
 
-	app.put('/all-notes', function (req, res) {
-
-		if (req.body.notes) {
-			notes = req.body.notes;
-		} else {
-			res.status(404).send('No notes to update');
-		}
-	});
-
 	//TEST with: curl -v -X "DELETE" http://localhost:3000/notes/1
 	app.delete('/notes/:id', function (req, res) {
 		let { id } = req.params;
@@ -73,4 +62,17 @@ module.exports = function appController(app) {
 	});
 }
 
-// module.exports = appController;
+//only for populating database
+function seedNotesDB() {
+	const notes = [new Note({ note: 'http is a protocol' }), new Note({ note: 'http requests have a url, method, header, and body' }), new Note({ note: 'this is cool' }), new Note({ note: 'that is hot' })];
+
+	notes.forEach((note) => {
+		note.save((err, note) => {
+			if (err) {
+				console.log(err);
+			} else {
+				console.log('Saved note: ', note);
+			}
+		});
+	});
+}
