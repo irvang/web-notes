@@ -23,14 +23,23 @@ module.exports = function appController(app) {
 	app.get('/', (req, res) => {
 		Note.find(function (err, noteCollection) {
 			if (err) return console.error(err);
-			console.log(noteCollection);
+			// console.log(noteCollection);
 			res.status(200).render('notes', { notesInEjs: noteCollection });
 		});
 		// res.status(200).render('notes', { notesInEjs: notes });
 	});
 
 	app.post('/notes', (req, res) => {
-		notes.push(req.body.note);
+		// notes.push(req.body.note);
+
+		const newNote = new Note({ note: req.body.note });
+		newNote.save((err, note) => {
+			if (err) {
+				console.log(err);
+			} else {
+				console.log('\n=========\nSaved note: ', note, '\n=========');
+			}
+		});
 
 		// redirects to '/'; browser will do all process as visting root would do
 		res.redirect('/');
@@ -52,17 +61,27 @@ module.exports = function appController(app) {
 	//TEST with: curl -v -X "DELETE" http://localhost:3000/notes/1
 	app.delete('/notes/:id', function (req, res) {
 		let { id } = req.params;
+		// console.log(id);
 
-		if (id >= 0 && id < notes.length) {
-			notes.splice(id, 1);
-			res.send(`\nnote ${id} deleted! \n\n`);
-		} else {
-			res.status(404).send(`\n No note not found at index ${id}. \n\n `);
-		}
+		Note.findOneAndRemove(id, function (err, note) {
+			if (err) {
+				throw error;
+			} else {
+				// console.log(`\nnote ${note.note} deleted! \n\n`);
+				res.send(`\nnote ${note} deleted! \n\n`);
+			}
+		});
+
+		// if (id >= 0 && id < notes.length) {
+		// 	notes.splice(id, 1);
+		// 	res.send(`\nnote ${id} deleted! \n\n`);
+		// } else {
+		// 	res.status(404).send(`\n No note not found at index ${id}. \n\n `);
+		// }
 	});
 }
 
-//only for populating database
+//Execute this function to populate database
 function seedNotesDB() {
 	const notes = [new Note({ note: 'http is a protocol' }), new Note({ note: 'http requests have a url, method, header, and body' }), new Note({ note: 'this is cool' }), new Note({ note: 'that is hot' })];
 

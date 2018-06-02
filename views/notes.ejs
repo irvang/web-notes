@@ -27,14 +27,15 @@
 	<!-- continue on Make the web notes app create a new note on an http post request-->
 
 	<% for(let i = 0; i < notesInEjs.length; i++) { %>
+	<%  let noteID = notesInEjs[i]._id.toString()%>
 		<div class="card">
 			<div class="card-header">Note <%= i + 1 %>
 				<!-- <button onclick="this.editNote = editNote.bind(this); this.editNote()" class="btn btn-secondary">Edit</button> -->
 				<button class="btn btn-secondary editButton">Edit</button>
-				<button onclick="deleteNote(<%= i %>);"  class="btn btn-danger">Delete</button>
+				<button class="btn btn-danger deleteButton" data-id=<%= noteID %>>Delete</button>
 			</div> 
 			
-			<div class="card-body" data-id='<%= i %>'><%= notesInEjs[i].note %></div>
+			<div class="card-body" data-id='<%= notesInEjs[i]._id %>'><%= notesInEjs[i].note %></div>
 		</div>
 	<% } %>
  

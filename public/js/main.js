@@ -1,4 +1,6 @@
 function deleteNote(id) {
+	console.log(id);
+
 	let ajaxRequest = {
 		url: '/notes/' + id,
 		method: 'delete',
@@ -9,6 +11,26 @@ function deleteNote(id) {
 	}
 	$.ajax(ajaxRequest);
 }
+
+let deleteButtons = $(".deleteButton");
+deleteButtons.on('click', deleteNote2);
+
+function deleteNote2(evt) {
+
+	const {id} = this.dataset;
+	console.log(id);
+
+	let ajaxRequest = {
+		url: '/notes/' + id,
+		method: 'delete',
+		success: window.location.reload()
+		// success: function () {
+		// 	window.location.reload();
+		// }
+	}
+	$.ajax(ajaxRequest);
+}
+
 
 function replaceNote() {
 	let noteText = document.querySelector('#note-replace-text').value;
@@ -25,8 +47,8 @@ function replaceNote() {
 }
 
 //====EDIT BUTTON
-let buttons = $(".editButton");
-buttons.on('click', editNote2);
+let editButtons = $(".editButton");
+editButtons.on('click', editNote2);
 
 function editNote2(evt) {
 	// console.log(($(this)));
