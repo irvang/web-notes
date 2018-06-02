@@ -22,6 +22,7 @@ module.exports = function appController(app) {
 	app.get('/', (req, res) => {
 		Note.find(function (err, noteCollection) {
 			if (err) return console.error(err);
+			console.log(noteCollection)
 			res.status(200).render('notes', { notesInEjs: noteCollection });
 		});
 	});
@@ -79,13 +80,14 @@ module.exports = function appController(app) {
 	//====DELETE
 	app.delete('/notes/:id', function (req, res) {
 		let { id } = req.params;
-		// console.log(id);
+		console.log('\n=======id is: ' + id + '\n======');
 
-		Note.findOneAndRemove(id, function (err, note) {
+		Note.findByIdAndRemove(req.params.id, function (err, note) {
+			console.log(note);
 			if (err) {
 				throw error;
 			} else {
-				// console.log(`\nnote ${note.note} deleted! \n\n`);
+				console.log(`\nnote ${note} deleted! \n\n`);
 				res.send(`\nnote ${note} deleted! \n\n`);
 			}
 		});

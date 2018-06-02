@@ -22,37 +22,42 @@ let editButtons = $(".editButton");
 editButtons.on('click', editNote);
 
 function editNote(evt) {
-	// console.log(($(this)));
+
+	//toggle button style and text
 	$(this).toggleClass('btn-secondary');
 	$(this).toggleClass('btn-success');
 	$(this).html('Save');
 
+	//select div with text to update
 	let noteDiv = $(this).parent().parent().children()[1];
 	noteDiv.contentEditable = true; //attr('contentEditable', true);
 	noteDiv.classList.add('editableText');//changes background color
+
+	//toggle listener functions
 	$(this).off('click', editNote);
 	$(this).on('click', saveNote);
-	// console.log(noteDiv);
-	// console.log('editNote')
 }
 
 function saveNote (evt) {
 
+	//toggle button style and text
 	$(this).toggleClass('btn-secondary');
 	$(this).toggleClass('btn-success');
 	$(this).html('Edit');
 
+	//select div
 	let noteDiv = $(this).parent().parent().children()[1];
 	noteDiv.contentEditable = false; //attr('contentEditable', 
 	noteDiv.classList.remove('editableText');//changes background color
 
+	//toggle listener functions
 	$(this).on('click', editNote);
 	$(this).off('click', saveNote);
 	
+	//generate AJAX request
 	let noteNumber = noteDiv.dataset.id;
 	let noteText = noteDiv.textContent;
 
-	console.log(noteNumber, noteText);
 	let ajaxRequest = {
 		url: '/notes/' + noteNumber,
 		method: 'put',
