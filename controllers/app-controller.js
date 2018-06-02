@@ -5,8 +5,6 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const Note = require('../db/note-model');
 
-
-
 module.exports = function appController(app) {
 
 	//assets is 'replaced' with public; assets will point to public
@@ -17,20 +15,19 @@ module.exports = function appController(app) {
 	app.use(bodyParser.urlencoded({ extended: true }));
 	app.use(bodyParser.json());
 
-	app.use(morgan('tiny'));
+	// app.use(morgan('tiny'));
 	// app.use('/', express.static('views'));
 
+	//====GET
 	app.get('/', (req, res) => {
 		Note.find(function (err, noteCollection) {
 			if (err) return console.error(err);
-			// console.log(noteCollection);
 			res.status(200).render('notes', { notesInEjs: noteCollection });
 		});
-		// res.status(200).render('notes', { notesInEjs: notes });
 	});
 
+	//====POST
 	app.post('/notes', (req, res) => {
-		// notes.push(req.body.note);
 
 		const newNote = new Note({ note: req.body.note });
 		newNote.save((err, note) => {
@@ -45,20 +42,28 @@ module.exports = function appController(app) {
 		res.redirect('/');
 	})
 
-	// curl -v -X PUT -d note="Updated note text." http://localhost:3000/notes/1
+	//====PUT
 	app.put('/notes/:id', function (req, res) {
 		let { id } = req.params;
-		let { note } = req.body;
 
-		if (id < 0 || id >= notes.length) {
-			res.status(404).send(`\n There is no note at position ${id} \n\n`);
-		} else {
-			notes.splice(id, 1, note);// also like this notes[id] = note;
-			res.send('note deleted');
-		}
+		Note.findById(id, function (err, noteToEdit) {
+			if (err) return console.error(err);
+
+			noteToEdit.note = req.body.note;
+
+			noteToEdit.save((err, note) => {
+				if (err) {
+					console.log(err);
+				} else {
+					console.log('Saved note: ', note);
+				}
+			});
+
+			res.send('note edited ' + noteToEdit.note)
+		});
 	});
 
-	//TEST with: curl -v -X "DELETE" http://localhost:3000/notes/1
+	//====DELETE
 	app.delete('/notes/:id', function (req, res) {
 		let { id } = req.params;
 		// console.log(id);
@@ -71,13 +76,6 @@ module.exports = function appController(app) {
 				res.send(`\nnote ${note} deleted! \n\n`);
 			}
 		});
-
-		// if (id >= 0 && id < notes.length) {
-		// 	notes.splice(id, 1);
-		// 	res.send(`\nnote ${id} deleted! \n\n`);
-		// } else {
-		// 	res.status(404).send(`\n No note not found at index ${id}. \n\n `);
-		// }
 	});
 }
 
@@ -95,3 +93,6 @@ function seedNotesDB() {
 		});
 	});
 }
+
+// curl -v -X PUT -d note="Updated note text." http://localhost:3000/notes/1
+//TEST with: curl -v -X "DELETE" http://localhost:3000/notes/1
