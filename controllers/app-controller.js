@@ -46,6 +46,19 @@ module.exports = function appController(app) {
 	app.put('/notes/:id', function (req, res) {
 		let { id } = req.params;
 
+		Note.findByIdAndUpdate(id, {
+			//schema
+			note: req.body.note
+		}, function (err, noteToEdit) {
+			if (err) return console.error(err);
+			res.send('Note updated to: ' + noteToEdit);
+		});
+	});
+
+
+	app.put('/notesssssssssss/:id', function (req, res) {
+		let { id } = req.params;
+
 		Note.findById(id, function (err, noteToEdit) {
 			if (err) return console.error(err);
 
@@ -80,6 +93,8 @@ module.exports = function appController(app) {
 }
 
 //Execute this function to populate database
+// seedNotesDB();
+
 function seedNotesDB() {
 	const notes = [new Note({ note: 'http is a protocol' }), new Note({ note: 'http requests have a url, method, header, and body' }), new Note({ note: 'this is cool' }), new Note({ note: 'that is hot' })];
 
@@ -93,6 +108,8 @@ function seedNotesDB() {
 		});
 	});
 }
+
+
 
 // curl -v -X PUT -d note="Updated note text." http://localhost:3000/notes/1
 //TEST with: curl -v -X "DELETE" http://localhost:3000/notes/1

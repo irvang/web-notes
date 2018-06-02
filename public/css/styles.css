@@ -33,3 +33,7 @@ form .btn {
 .editButton {
 	width: 4.5rem;
 }
+
+.editableText {
+	background-color: lightgoldenrodyellow;
+}

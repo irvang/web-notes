@@ -29,6 +29,7 @@ function editNote(evt) {
 
 	let noteDiv = $(this).parent().parent().children()[1];
 	noteDiv.contentEditable = true; //attr('contentEditable', true);
+	noteDiv.classList.add('editableText');//changes background color
 	$(this).off('click', editNote);
 	$(this).on('click', saveNote);
 	// console.log(noteDiv);
@@ -43,6 +44,7 @@ function saveNote (evt) {
 
 	let noteDiv = $(this).parent().parent().children()[1];
 	noteDiv.contentEditable = false; //attr('contentEditable', 
+	noteDiv.classList.remove('editableText');//changes background color
 
 	$(this).on('click', editNote);
 	$(this).off('click', saveNote);
