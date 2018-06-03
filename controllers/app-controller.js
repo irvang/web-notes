@@ -20,7 +20,7 @@ module.exports = function appController(app) {
 
 	//====GET
 	app.get('/', (req, res) => {
-		Note.find({},function (err, noteCollection) {
+		Note.find({}, function (err, noteCollection) {
 			if (err) return console.error(err);
 			res.status(200).render('notes', { notesInEjs: noteCollection });
 		});
@@ -37,18 +37,8 @@ module.exports = function appController(app) {
 				console.log('\n=========\nSaved note: ', note, '\n=========');
 			}
 		});
-
-		// const newNote = new Note({ note: req.body.note });
-		// newNote.save((err, note) => {
-		// 	if (err) {
-		// 		console.log(err);
-		// 	} else {
-		// 		console.log('\n=========\nSaved note: ', note, '\n=========');
-		// 	}
-		// });
-		// redirects to '/'; browser will do all process as visting root would do
 		res.redirect('/');
-	})
+	});
 
 	//====PUT
 	app.put('/notes/:id', function (req, res) {
@@ -58,27 +48,6 @@ module.exports = function appController(app) {
 		}, function (err, noteToEdit) {
 			if (err) return console.error(err);
 			res.send('Note updated to: ' + noteToEdit);
-		});
-	});
-
-
-	app.put('/notesssssssssss/:id', function (req, res) {
-		let { id } = req.params;
-
-		Note.findById(id, function (err, noteToEdit) {
-			if (err) return console.error(err);
-
-			noteToEdit.note = req.body.note;
-
-			noteToEdit.save((err, note) => {
-				if (err) {
-					console.log(err);
-				} else {
-					console.log('Saved note: ', note);
-				}
-			});
-
-			res.send('note edited ' + noteToEdit.note)
 		});
 	});
 
@@ -94,6 +63,7 @@ module.exports = function appController(app) {
 	});
 }
 
+//--------------------------
 //Execute this function to populate database
 // seedNotesDB();
 
@@ -120,5 +90,28 @@ see: https://stackoverflow.com/questions/21431091/can-i-just-kill-mongod-to-stop
 
 curl -v -X PUT -d note="Updated note text." http://localhost:3000/notes/1
 TEST with: curl -v -X "DELETE" http://localhost:3000/notes/1
+
+
+
+//====Another way to update:
+app.put('/notesssssssssss/:id', function (req, res) {
+	let { id } = req.params;
+
+	Note.findById(id, function (err, noteToEdit) {
+		if (err) return console.error(err);
+
+		noteToEdit.note = req.body.note;
+
+		noteToEdit.save((err, note) => {
+			if (err) {
+				console.log(err);
+			} else {
+				console.log('Saved note: ', note);
+			}
+		});
+
+		res.send('note edited ' + noteToEdit.note)
+	});
+});
 
 */

@@ -12,67 +12,35 @@ function deleteNote(evt) {
 	$.ajax(ajaxRequest);
 }
 
-//====EDIT BUTTON
+//====EDIT BUTTONs
 let editButtons = $(".editButton");
-editButtons.on('click', editNote);
+editButtons.on('click', editNote());
 
-function editNote(evt) {
+function editNote() {
+	let edit_on = true;
 
-	//toggle button style and text
-	$(this).toggleClass('btn-secondary');
-	$(this).toggleClass('btn-success');
-	$(this).html('Save');
+	return function () {
+		$(this).toggleClass('btn-secondary');
+		$(this).toggleClass('btn-success');
+		$(this).html(edit_on ? 'Save' : 'Edit');
 
-	//select div with text to update
-	let noteDiv = $(this).parent().parent().children()[1];
-	noteDiv.contentEditable = true; //attr('contentEditable', true);
-	noteDiv.classList.add('editableText');//changes background color
+		//select div with text to update
+		let noteDiv = $(this).parent().parent().children()[1];
+		noteDiv.contentEditable = edit_on; //attr('contentEditable', true);
+		noteDiv.classList.toggle('editableText');
 
-	//toggle listener functions
-	$(this).off('click', editNote);
-	$(this).on('click', saveNote);
-}
+		//when edit mode is turned off, AJAX is sent
+		if (!edit_on) {//when on, no editing; when off, edit and save allowed
+			//generate AJAX request
+			let ajaxRequest = {
+				url: '/notes/' + noteDiv.dataset.id,
+				method: 'put',
 
-function saveNote(evt) {
-
-	//toggle button style and text
-	$(this).toggleClass('btn-secondary');
-	$(this).toggleClass('btn-success');
-	$(this).html('Edit');
-
-	//select div
-	let noteDiv = $(this).parent().parent().children()[1];
-	noteDiv.contentEditable = false; //attr('contentEditable', 
-	noteDiv.classList.remove('editableText');//changes background color
-
-	//toggle listener functions
-	$(this).on('click', editNote);
-	$(this).off('click', saveNote);
-
-	//generate AJAX request
-	let ajaxRequest = {
-		url: '/notes/' + noteDiv.dataset.id,
-		method: 'put',
-
-		data: { note: noteDiv.textContent },
-		// success: window.location.reload()
+				data: { note: noteDiv.textContent },
+				// success: window.location.reload()
+			}
+			$.ajax(ajaxRequest);
+		}
+		edit_on = !edit_on;
 	}
-	$.ajax(ajaxRequest);
 }
-
-
-/* 
-function replaceNote() {
-	let noteText = document.querySelector('#note-replace-text').value;
-	let noteNumber = document.querySelector('#note-replace-index').value;
-
-	let ajaxRequest = {
-		url: '/notes/' + noteNumber,
-		method: 'put',
-
-		data: { note: noteText },
-		success: window.location.reload()
-	}
-	$.ajax(ajaxRequest);
-}
- */
