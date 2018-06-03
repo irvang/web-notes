@@ -20,7 +20,7 @@ module.exports = function appController(app) {
 
 	//====GET
 	app.get('/', (req, res) => {
-		Note.find(function (err, noteCollection) {
+		Note.find({},function (err, noteCollection) {
 			if (err) return console.error(err);
 			res.status(200).render('notes', { notesInEjs: noteCollection });
 		});
@@ -28,9 +28,9 @@ module.exports = function appController(app) {
 
 	//====POST
 	app.post('/notes', (req, res) => {
-
-		const newNote = new Note({ note: req.body.note });
-		newNote.save((err, note) => {
+		Note.create({
+			note: req.body.note
+		}, (err, note) => {
 			if (err) {
 				console.log(err);
 			} else {
@@ -38,15 +38,21 @@ module.exports = function appController(app) {
 			}
 		});
 
+		// const newNote = new Note({ note: req.body.note });
+		// newNote.save((err, note) => {
+		// 	if (err) {
+		// 		console.log(err);
+		// 	} else {
+		// 		console.log('\n=========\nSaved note: ', note, '\n=========');
+		// 	}
+		// });
 		// redirects to '/'; browser will do all process as visting root would do
 		res.redirect('/');
 	})
 
 	//====PUT
 	app.put('/notes/:id', function (req, res) {
-		let { id } = req.params;
-
-		Note.findByIdAndUpdate(id, {
+		Note.findByIdAndUpdate(req.params.id, {
 			//schema
 			note: req.body.note
 		}, function (err, noteToEdit) {
@@ -78,8 +84,7 @@ module.exports = function appController(app) {
 
 	//====DELETE
 	app.delete('/notes/:id', function (req, res) {
-		let { id } = req.params;
-		Note.findByIdAndRemove(id, function (err, note) {
+		Note.findByIdAndRemove(req.params.id, function (err, note) {
 			if (err) {
 				throw error;
 			} else {
@@ -107,6 +112,13 @@ function seedNotesDB() {
 }
 
 
+/* 
+kill mongod: 
+mongo admin --eval "db.shutdownServer()"
+see: https://stackoverflow.com/questions/21431091/can-i-just-kill-mongod-to-stop-mongo
 
-// curl -v -X PUT -d note="Updated note text." http://localhost:3000/notes/1
-//TEST with: curl -v -X "DELETE" http://localhost:3000/notes/1
+
+curl -v -X PUT -d note="Updated note text." http://localhost:3000/notes/1
+TEST with: curl -v -X "DELETE" http://localhost:3000/notes/1
+
+*/

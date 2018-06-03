@@ -10,13 +10,26 @@ const hikeSchema = new mongoose.Schema({
 
 const Hike = mongoose.model('HikingTrail', hikeSchema);
 
-let newHike = new Hike({
-	name: 'Blue Hills Reservation',
-	closes: '4:00pm',
-	phone: '(617) 698-1802'
-});
+// let newHike = new Hike({
+// 	name: 'Blue Hills Reservation',
+// 	closes: '4:00pm',
+// 	phone: '(617) 698-1802'
+// });
 
 // newHike.save(function (err, hike) {
+// 	if (err) {
+// 		console.log('SOMETHING WENT WRONG!')
+// 	} else {
+// 		console.log('I saved my first hike to the database:');
+// 		console.log(hike);
+// 	}
+// });
+
+// Hike.create({
+// 	name: 'Red Herbs Cloud',
+// 	closes: '4:00pm',
+// 	phone: '(617) 698-1802'
+// }, function (err, hike) {
 // 	if (err) {
 // 		console.log('SOMETHING WENT WRONG!')
 // 	} else {
@@ -30,6 +43,6 @@ Hike.find({}, function (err, hike) {
 		console.log('SOMETHING WENT WRONG!')
 	} else {
 		console.log('I saved my first hike to the database:');
-		console.log(hike[0].name);
+		console.log(hike);
 	}
 });

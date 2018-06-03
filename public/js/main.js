@@ -2,17 +2,12 @@ let deleteButtons = $(".deleteButton");
 deleteButtons.on('click', deleteNote);
 
 function deleteNote(evt) {
-
-	const {id} = this.dataset;
-	console.log(id);
-
 	let ajaxRequest = {
-		url: '/notes/' + id,
+		url: '/notes/' + this.dataset.id,
 		method: 'delete',
-		success: window.location.reload()
-		// success: function () {
-		// 	window.location.reload();
-		// }
+		success: function () {//could be: success: window.location.reload()
+			window.location.reload();
+		}
 	}
 	$.ajax(ajaxRequest);
 }
@@ -38,7 +33,7 @@ function editNote(evt) {
 	$(this).on('click', saveNote);
 }
 
-function saveNote (evt) {
+function saveNote(evt) {
 
 	//toggle button style and text
 	$(this).toggleClass('btn-secondary');
@@ -53,16 +48,13 @@ function saveNote (evt) {
 	//toggle listener functions
 	$(this).on('click', editNote);
 	$(this).off('click', saveNote);
-	
-	//generate AJAX request
-	let noteNumber = noteDiv.dataset.id;
-	let noteText = noteDiv.textContent;
 
+	//generate AJAX request
 	let ajaxRequest = {
-		url: '/notes/' + noteNumber,
+		url: '/notes/' + noteDiv.dataset.id,
 		method: 'put',
 
-		data: { note: noteText },
+		data: { note: noteDiv.textContent },
 		// success: window.location.reload()
 	}
 	$.ajax(ajaxRequest);
