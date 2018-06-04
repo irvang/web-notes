@@ -20,8 +20,8 @@ function editNote() {
 	let edit_on = true;
 
 	return function () {
-		$(this).toggleClass('btn-secondary');
-		$(this).toggleClass('btn-success');
+		$(this).toggleClass('btn-secondary');//starts on
+		$(this).toggleClass('btn-success');//starts off
 		$(this).html(edit_on ? 'Save' : 'Edit');
 
 		//select div with text to update
@@ -29,13 +29,11 @@ function editNote() {
 		noteDiv.contentEditable = edit_on; //attr('contentEditable', true);
 		noteDiv.classList.toggle('editableText');
 
-		//when edit mode is turned off, AJAX is sent
+		//when edit mode is turned off, generate and send AJAX
 		if (!edit_on) {//when on, no editing; when off, edit and save allowed
-			//generate AJAX request
 			let ajaxRequest = {
 				url: '/notes/' + noteDiv.dataset.id,
 				method: 'put',
-
 				data: { note: noteDiv.textContent },
 				// success: window.location.reload()
 			}

@@ -9,12 +9,9 @@ module.exports = function appController(app) {
 
 	//assets is 'replaced' with public; assets will point to public
 	app.use('/assets', express.static('public'));
-
 	app.set('view engine', 'ejs');
-
 	app.use(bodyParser.urlencoded({ extended: true }));
 	app.use(bodyParser.json());
-
 	// app.use(morgan('tiny'));
 	// app.use('/', express.static('views'));
 
@@ -31,13 +28,11 @@ module.exports = function appController(app) {
 		Note.create({
 			note: req.body.note
 		}, (err, note) => {
-			if (err) {
-				console.log(err);
-			} else {
-				console.log('\n=========\nSaved note: ', note, '\n=========');
-			}
+			if (err) return console.error(err);
+			console.log('\n=========\nSaved note: ', note, '\n=========');
+			res.redirect('/');//waits for redirection
 		});
-		res.redirect('/');
+
 	});
 
 	//====PUT
@@ -54,11 +49,8 @@ module.exports = function appController(app) {
 	//====DELETE
 	app.delete('/notes/:id', function (req, res) {
 		Note.findByIdAndRemove(req.params.id, function (err, note) {
-			if (err) {
-				throw error;
-			} else {
-				res.send(`\nnote ${note} deleted! \n\n`);
-			}
+			if (err) throw error;
+			res.send(`\nnote ${note} deleted! \n\n`);
 		});
 	});
 }
