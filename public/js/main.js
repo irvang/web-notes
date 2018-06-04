@@ -17,9 +17,11 @@ let editButtons = $(".editButton");
 editButtons.on('click', editNote());
 
 function editNote() {
-	let edit_on = true;
+	let edit_on = false;
 
 	return function () {
+		edit_on = !edit_on;
+
 		$(this).toggleClass('btn-secondary');//starts on
 		$(this).toggleClass('btn-success');//starts off
 		$(this).html(edit_on ? 'Save' : 'Edit');
@@ -39,6 +41,5 @@ function editNote() {
 			}
 			$.ajax(ajaxRequest);
 		}
-		edit_on = !edit_on;
 	}
 }
